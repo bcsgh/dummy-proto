@@ -1,0 +1,28 @@
+syntax = "proto2";
+
+package bcsgh.test;
+
+enum Endpoint {
+  JSON = 1;
+
+  UNKNOWN_PATH = 404;
+}
+
+enum StaticEndpoint {
+  ROOT = 2;
+  MAIN_JS = 3;
+}
+
+enum Test { THIS = 42; }
+message Value { repeated Test tests = 54; }
+
+message ExampleResponce {
+  message Foo { optional Value tests = 54; }
+  optional string errors = 1;
+  optional string value = 2;
+  required Value yes = 3;
+  repeated Value many = 4;
+  optional string do_not_reformat_names = 5;
+  map<int32, string> mapping = 6;
+  map<int32, Value> mapping_obj = 7;
+}
