@@ -1,3 +1,5 @@
+exports_files(["gen_dummy.bzl"])
+
 ####################################
 cc_proto_library(
     name = "descriptor_proto_cc",

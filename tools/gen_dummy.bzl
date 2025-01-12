@@ -25,6 +25,37 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+"""
+# A Bazel rule for generating a "text proto" populated with dummy data.
+
+## `MODULE.bazel`
+
+```
+bazel_dep(
+    name = "com_github_bcsgh_dummy_proto",
+    version = ...,
+)
+```
+
+## Usage
+
+```
+load("@com_github_bcsgh_dummy_proto//tools:gen_dummy.bzl", "gen_dummy")
+
+proto_library(
+    name = "api",
+    srcs = ["api.proto"],
+)
+
+gen_dummy(
+    name = "dummy_api_data",
+    proto = ":api",
+    message_name = "some.thing.Responce",
+    pb = "test_dummy.txt.pb",
+)
+```
+"""
+
 def _gen_dummy_impl(ctx):
     if not ctx.outputs.json and not ctx.outputs.pb:
         fail("json or pb is requiered")
