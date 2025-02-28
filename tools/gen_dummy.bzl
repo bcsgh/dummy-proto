@@ -64,6 +64,7 @@ def _gen_dummy_impl(ctx):
     ins = []
 
     args = ctx.actions.args()
+
     # args.add("--stderrthreshold=0")
     args.add("--message_name=%s" % ctx.attr.message_name)
 
@@ -82,51 +83,50 @@ def _gen_dummy_impl(ctx):
         args.add("--counts=%s" % ctx.file.counts.path)
 
     args.add_all([
-      f.path
-      for f in ctx.attr.proto[ProtoInfo].transitive_descriptor_sets.to_list()
+        f.path
+        for f in ctx.attr.proto[ProtoInfo].transitive_descriptor_sets.to_list()
     ])
 
     ctx.actions.run(
-        inputs=depset(
+        inputs = depset(
             ins,
-            transitive=[ctx.attr.proto[ProtoInfo].transitive_descriptor_sets],
+            transitive = [ctx.attr.proto[ProtoInfo].transitive_descriptor_sets],
         ),
-        outputs=outs,
-        executable=ctx.file._tool,
-        arguments=[args],
+        outputs = outs,
+        executable = ctx.file._tool,
+        arguments = [args],
     )
     return
 
-
 gen_dummy = rule(
     doc = "",
-
+    #
     implementation = _gen_dummy_impl,
     attrs = {
         "proto": attr.label(
             doc = "A proto_library rule to generate from.",
-            allow_single_file=True,
-            mandatory=True,
-            providers=[ProtoInfo]
+            allow_single_file = True,
+            mandatory = True,
+            providers = [ProtoInfo],
         ),
         "message_name": attr.string(
             doc = "A proto buff name. Must be fully qualified.",
-            mandatory=True,
+            mandatory = True,
         ),
         "counts": attr.label(
             doc = "A json file mapping fully qualified repated field name to lengths.",
-            allow_single_file=True,
+            allow_single_file = True,
         ),
         "json": attr.output(
-            doc="The generated JavaScript file.",
+            doc = "The generated JavaScript file.",
         ),
         "pb": attr.output(
-            doc="The generated protobuf text format file.",
+            doc = "The generated protobuf text format file.",
         ),
         "_tool": attr.label(
-            doc="The generater.",
-            allow_single_file=True,
-            default=":gen_dummy",
+            doc = "The generater.",
+            allow_single_file = True,
+            default = ":gen_dummy",
         ),
     },
 )

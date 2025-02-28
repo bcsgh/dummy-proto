@@ -13,9 +13,9 @@ proto_library(
 
 gen_dummy(
     name = "foo",
-    proto = ":api",
     message_name = "bcsgh.test.ExampleResponce",
     pb = "test_dummy.txt.pb",
+    proto = ":api",
 )
 
 diff_test(

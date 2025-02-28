@@ -1,3 +1,5 @@
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+
 exports_files(["gen_dummy.bzl"])
 
 ####################################
@@ -9,16 +11,16 @@ cc_proto_library(
 cc_binary(
     name = "gen_dummy",
     srcs = ["gen_dummy.cc"],
+    visibility = ["//visibility:public"],
     deps = [
+        ":descriptor_proto_cc",
         "@abseil-cpp//absl/flags:flag",
         "@abseil-cpp//absl/flags:parse",
         "@abseil-cpp//absl/log:check",
         "@abseil-cpp//absl/log:flags",
         "@abseil-cpp//absl/log:initialize",
         "@abseil-cpp//absl/log:log",
-        "@jsoncpp//:jsoncpp",
-        "@protobuf//:protobuf",
-        ":descriptor_proto_cc",
+        "@jsoncpp",
+        "@protobuf",
     ],
-    visibility = ["//visibility:public"],
 )
