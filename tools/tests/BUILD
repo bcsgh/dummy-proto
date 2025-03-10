@@ -13,6 +13,8 @@ proto_library(
 
 gen_dummy(
     name = "foo",
+    counts = ":counts.json",
+    enums = ":enums.json",
     message_name = "bcsgh.test.ExampleResponce",
     pb = "test_dummy.txt.pb",
     proto = ":api",

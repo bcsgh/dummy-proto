@@ -82,6 +82,10 @@ def _gen_dummy_impl(ctx):
         ins += [ctx.file.counts]
         args.add("--counts=%s" % ctx.file.counts.path)
 
+    if ctx.file.enums:
+        ins += [ctx.file.enums]
+        args.add("--enums=%s" % ctx.file.enums.path)
+
     args.add_all([
         f.path
         for f in ctx.attr.proto[ProtoInfo].transitive_descriptor_sets.to_list()
@@ -115,6 +119,10 @@ gen_dummy = rule(
         ),
         "counts": attr.label(
             doc = "A json file mapping fully qualified repated field name to lengths.",
+            allow_single_file = True,
+        ),
+        "enums": attr.label(
+            doc = "A json file holding a map from enum names to values to skip.",
             allow_single_file = True,
         ),
         "json": attr.output(

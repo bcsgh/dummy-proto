@@ -13,7 +13,12 @@ enum StaticEndpoint {
   MAIN_JS = 3;
 }
 
-enum Test { THIS = 42; }
+enum Test {
+  SKIP = 5;
+  THESE = 7;
+
+  THIS = 42;
+}
 message Value { repeated Test tests = 54; }
 
 message ExampleResponce {

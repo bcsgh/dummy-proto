@@ -12,6 +12,10 @@ many {
   tests: THIS
   tests: THIS
 }
+many {
+  tests: THIS
+  tests: THIS
+}
 do_not_reformat_names: "S-2"
 mapping {
   key: 0

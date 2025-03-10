@@ -15,6 +15,7 @@
 #include "json/json.h"
 
 ABSL_FLAG(std::string, counts, "", "");
+ABSL_FLAG(std::string, enums, "", "");
 ABSL_FLAG(std::string, message_name, "", "");
 ABSL_FLAG(std::string, pb, "", "");
 ABSL_FLAG(std::string, json, "", "");
@@ -37,9 +38,45 @@ T Thing(int = 0) {
 }
 
 const EnumValueDescriptor *Thing(const EnumDescriptor *ed) {
+  static auto zeros = [] {
+    std::map<std::string, std::set<std::int64_t>> ret;
+
+    if (auto f = absl::GetFlag(FLAGS_enums); f != "") {
+      std::ifstream t(f);
+      LOG_IF(QFATAL, t.fail()) << "Failed to open " << f;
+
+      Json::Value root;
+      Json::Reader reader;
+      CHECK(reader.parse(t, root))
+          << f << ": " << reader.getFormattedErrorMessages();
+      CHECK(root.isObject()) << root;
+
+      for (auto i = root.begin(), e = root.end(); i != e; i++) {
+        CHECK(i->isArray()) << i.key() << ": " << *i;
+
+        auto &v = ret[i.key().asString()];
+        for (const auto &e : *i) {
+          v.emplace(e.asInt());
+        }
+      }
+    }
+
+    return ret;
+  }();
+  const auto &z = zeros[ed->full_name()];
+
   static std::map<std::string, int> it;
-  int i = it[ed->full_name()]++;
-  return ed->value(i % ed->value_count());
+  int &i = it[ed->full_name()];
+
+  const int j = i++;
+  while (true) {
+    const EnumValueDescriptor *ret = ed->value(i % ed->value_count());
+    if (z.find(ret->number()) == z.end()) {
+      return ret;
+    }
+    i++;
+    CHECK(j != i) << ed->full_name();
+  }
 }
 
 int Count(const FieldDescriptor *ed) {
@@ -52,7 +89,8 @@ int Count(const FieldDescriptor *ed) {
 
       Json::Value root;
       Json::Reader reader;
-      CHECK(reader.parse(t, root)) << reader.getFormattedErrorMessages();
+      CHECK(reader.parse(t, root))
+          << f << ": " << reader.getFormattedErrorMessages();
       CHECK(root.isObject()) << root;
 
       for (auto i = root.begin(), e = root.end(); i != e; i++) {
