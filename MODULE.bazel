@@ -26,3 +26,9 @@ bazel_dep(
     name = "rules_cc",
     version = "0.1.1",
 )
+
+bazel_dep(
+    name = "stardoc",
+    version = "0.7.1",
+    dev_dependency = True,
+)

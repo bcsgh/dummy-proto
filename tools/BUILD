@@ -1,6 +1,13 @@
 load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@stardoc//stardoc:stardoc.bzl", "stardoc")
 
 exports_files(["gen_dummy.bzl"])
+
+stardoc(
+    name = "docs",
+    input = "gen_dummy.bzl",
+    out = "check.md",
+)
 
 ####################################
 cc_proto_library(

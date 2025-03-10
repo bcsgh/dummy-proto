@@ -36,7 +36,7 @@ gen_dummy(
 <pre>
 load("@com_github_bcsgh_dummy_proto//tools:gen_dummy.bzl", "gen_dummy")
 
-gen_dummy(<a href="#gen_dummy-name">name</a>, <a href="#gen_dummy-counts">counts</a>, <a href="#gen_dummy-json">json</a>, <a href="#gen_dummy-message_name">message_name</a>, <a href="#gen_dummy-pb">pb</a>, <a href="#gen_dummy-proto">proto</a>)
+gen_dummy(<a href="#gen_dummy-name">name</a>, <a href="#gen_dummy-counts">counts</a>, <a href="#gen_dummy-enums">enums</a>, <a href="#gen_dummy-json">json</a>, <a href="#gen_dummy-message_name">message_name</a>, <a href="#gen_dummy-pb">pb</a>, <a href="#gen_dummy-proto">proto</a>)
 </pre>
 
 
@@ -48,6 +48,7 @@ gen_dummy(<a href="#gen_dummy-name">name</a>, <a href="#gen_dummy-counts">counts
 | :------------- | :------------- | :------------- | :------------- | :------------- |
 | <a id="gen_dummy-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
 | <a id="gen_dummy-counts"></a>counts |  A json file mapping fully qualified repated field name to lengths.   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
+| <a id="gen_dummy-enums"></a>enums |  A json file holding a map from enum names to values to skip.   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
 | <a id="gen_dummy-json"></a>json |  The generated JavaScript file.   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
 | <a id="gen_dummy-message_name"></a>message_name |  A proto buff name. Must be fully qualified.   | String | required |  |
 | <a id="gen_dummy-pb"></a>pb |  The generated protobuf text format file.   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
